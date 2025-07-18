@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Employee Manager - Modal</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Employee Dashboard</h1>
+
+    <button class="btn" onclick="openModal()">➕ Add Employee</button>
+   
+
+    <table id="employee-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+      <!-- Trash Bin Button -->
+<button class="btn btn-danger mt-2" onclick="toggleTrash()">🗑 View Trash</button>
+
+<!-- Trash Bin Table -->
+<table id="trash-table" style="display: none; margin-top: 20px;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+  </div>
+
+
+
+  <!-- Modal Form -->
+  <div id="employeeModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <form id="employee-form">
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" required />
+        </div>
+        <div class="form-group">
+          <label for="role">Job Role:</label>
+          <input type="text" id="role" required />
+        </div>
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" required>
+            <option value="">-- Select --</option>
+            <option value="Active">Active</option>
+            <option value="On Leave">On Leave</option>
+            <option value="Terminated">Terminated</option>
+          </select>
+        </div>
+        <input type="hidden" id="editIndex" value="-1" />
+        <button type="submit" class="btn" id="saveBtn">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js">
+    
+  </script>
+</body>
+</html>
