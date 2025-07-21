@@ -1,295 +1,592 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+/* ===================== */
+/*  Global Styles        */
+/* ===================== */
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
 body {
-  font-family: sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 20px;
+    display: flex;
+     background-color: #f0f0f0;
+}
+.toggle-btn { display: none;}
+/* ===================== */
+/*  Sidebar Styles       */
+/* ===================== */
+.sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 110px;
+    height: 100vh;
+    padding: 0 1.7rem;
+    color: #fff;
+    overflow: hidden;
+    transition: all 0.5s linear;
+    background-color: rgba(113, 90, 186, 1);
 }
 
-.container {
-  max-width: 85%;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.sidebar:hover {
+    width: 240px;
+    transition: 0.5s;
 }
 
-h1 {
-  text-align: center;
+.logo {
+    height: 80px;
+    padding: 16px;
 }
 
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
+.menu {
+    height: 88%;
+    position: relative;
+    list-style: none;
+    padding: 0;
 }
 
-th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: center;
+.menu li {
+    padding: 1rem;
+    margin: 8px 0;
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
 }
 
-.btn {
-  padding: 8px 12px;
-  background: #007bff;
+.menu li:hover,
+.menu li.active {
+    background-color: #e0e0e058;
+}
+
+.menu a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.menu a span {
+    overflow: hidden;
+}
+
+.menu a i {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.logout {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* ===================== */
+/*  Main Content Styles  */
+/* ===================== */
+.main--content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* ===================== */
+/*  Header Styles        */
+/* ===================== */
+.header--wrapper {
+   
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, #ffffff 0%, #f2f2f2 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header--title h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header--title span {
+    color: gray;
+    font-size: 14px;
+}
+
+.user--info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.user--info i {
+    color: rgba(113, 90, 186, 1);
+}
+
+/* ===================== */
+/*  Input Styles         */
+/* ===================== */
+input[type="text"] {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+}
+
+/* ===================== */
+/*  add employee        */
+/* ===================== */
+
+/* زر فتح المودال */
+.open-modal-btn {
+  margin-left:20px ;
+  padding: 10px 20px;
+  background-color: #715aba;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+ display: inline-flex;
   cursor: pointer;
 }
 
-.btn-secondary {
-  background: #28a745;
-}
-
-.btn-danger {
-  background: #dc3545;
-}
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-.btn:active {
-  transform: scale(0.97);
-}
-
-#search {
-  margin: 20px 0;
-  width: 95%;
-  padding: 8px;
-}
-
-/* Modal Styling */
+/* خلفية المودال */
 .modal {
-  display: none;
+  display: none; /* مخفي افتراضياً */
   position: fixed;
-  z-index: 10;
+  z-index: 2000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.4); /* خلفية معتمة */
 }
 
+/* محتوى المودال */
 .modal-content {
   background-color: #fff;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  max-width: 500px;
-  position: relative;
-  animation: fadeIn 0.3s ease-in-out;
+  margin: 8% auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.close {
+/* زر الإغلاق */
+.close-btn {
   color: #aaa;
-  position: absolute;
-  right: 15px;
-  top: 10px;
+  float: right;
   font-size: 28px;
-  font-weight: bold;
   cursor: pointer;
 }
 
-.close:hover {
-  color: black;
+.close-btn:hover {
+  color: #000;
 }
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input, 
-.form-group select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input:focus, select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
-}
-
-/* Responsive layout */
-@media (max-width: 600px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  thead {
-    display: none;
-  }
-
-  td {
-    position: relative;
-    padding-left: 50%;
-    text-align: left;
-    border: none;
-    border-bottom: 1px solid #ddd;
-  }
-
-  td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    font-weight: bold;
-    color: #666;
-  }
-}
-
-/* Alerts */
-.alert {
-  padding: 10px 15px;
-  margin-top: 15px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-/* Utility spacing */
-.mt-1 { margin-top: 10px; }
-.mt-2 { margin-top: 20px; }
-.mb-1 { margin-bottom: 10px; }
-.mb-2 { margin-bottom: 20px; }
-.text-center { text-align: center; }
-
-/* Button group */
-.btn-group {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-/* Disabled buttons */
-.btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-/* Image preview */
-.image-preview {
-  display: block;
-  margin-top: 10px;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #007bff;
-}
-
-/* Toast notifications */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-  z-index: 9999;
-}
-
-.toast.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Badge labels */
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
+.employee-form-container {
+  background: #fff;
+  padding: 30px;
   border-radius: 12px;
-  font-size: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  margin: 50px auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.employee-form .form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.employee-form label {
   font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.employee-form input,
+.employee-form select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.employee-form input:focus,
+.employee-form select:focus {
+  border-color: rgba(113, 90, 186, 1);
+  outline: none;
+}
+
+.employee-form button {
+  margin-top: 20px;
+  padding: 12px;
+  background: rgba(113, 90, 186, 1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}ؤ
+
+.employee-form button:hover {
+  background: #45a049;
+}
+
+/* ===================== */
+/*  Color Classes        */
+/* ===================== */
+.light-red { background-color: #ffe0e0; }
+.red { color: red; }
+
+.light-purple { background-color: #f5e0ff; }
+.purple { color: #a64ac9; }
+
+.light-green { background-color: #e0ffe6; }
+.green { color: #3cb371; }
+
+.light-blue { background-color: #e0e9ff; }
+.blue { color: #007bff; }
+
+/* ===================== */
+/*  Table Styles         */
+/* ===================== */
+.tabular--wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.table--container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table--container th,
+.table--container td {
+    text-align: left;
+    padding: 12px;
+}
+.main--title{
+    margin-bottom: 20px;
+    font-size:1.5rem;
+}
+.table--container thead {
+    background-color: rgba(113, 90, 186, 1);
+    color: #fff;
+}
+
+.table--container tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table--container a {
+    color: rgb(140, 133, 201);
+    text-decoration: none;
+}
+
+/* filter */
+.button-row {
+  display: flex;
+  justify-content: space-between; /* تفصل بين الزرين جهة اليسار واليمين */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
+
+.open-modal-btn:hover {
+  background-color: rgb(90, 70, 150);
+}
+
+.filter-btn {
+    margin-right: 20px;
+  background-color: #007BFF;
   color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s;
 }
 
-.badge.active {
-  background-color: #28a745;
+.filter-btn:hover {
+  background-color: #0056b3;
 }
 
-.badge.inactive {
-  background-color: #dc3545;
+/* edit and delete */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  transition: background-color 0.3s ease;
 }
 
-/* Table row hover */
-tbody tr:hover {
-  background-color: #f1f1f1;
+.edit-btn {
+  background-color: #28a745; /* Green */
 }
 
-/* File input */
-.form-group input[type="file"] {
-  padding: 5px;
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545; /* Red */
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.trash-btn {
+  background-color: #dc3545; /* Red */
+  color: white;
+  margin-top: 10px;
+  margin-left: 20PX;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.trash-btn:hover {
+  background-color: #b02a37;
+}
+
+
+/* ===================== */
+/*  Responsive Styles    */
+/* ===================== */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    /* Sidebar adjustments */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        justify-content: space-between;
+        overflow-x: auto;
+        padding: 1rem;
+    }
+
+    .sidebar:hover {
+        width: 100%;
+    }
+
+ 
+.menu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: auto;
+    max-height: 100vh;
+    align-items: flex-start;
+
+    position: relative; /* أو fixed/absolute حسب الحاجة */
+    z-index: 9999; /* قيمة عالية لجعله في أعلى الطبقات */
+}
+
+
+    .menu li {
+        flex: 0 0 auto;
+        margin: 2px 0;
+        padding:5px ;
+        width: 100%;
+    }
+
+    .menu a {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 10px 15px;
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Main content padding */
+    .main--content {
+        padding: 10px;
+    }
+
+    /* Header stack */
+    .header--wrapper {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    /* User info full width */
+    .user--info {
+        width: 100%;
+        justify-content: space-between;
+        align-self: flex-end;
+    }
+
+    /* Cards single column */
+    .card--wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    /* Table horizontal scroll */
+    .tabular--wrapper {
+        overflow-x: auto;
+    }
+
+    .table--container table {
+        min-width: 600px;
+    }
+
+    /* Sidebar toggle button */
+      .toggle-btn {
+        display: block; /* اجعل الزر يظهر */
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+        background-color: rgba(113, 90, 186, 1);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .toggle-btn i {
+      padding: 6px;
+        font-size: 18px;
+    }
+
+    /* Sidebar fixed & offcanvas */
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100%;
+        width: 240px;
+        transition: left 0.3s ease;
+        z-index: 999;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main--content {
+        padding: 70px 15px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .amount--value {
+        font-size: 18px;
+    }
+
+    .header--title h2 {
+        font-size: 18px;
+    }
+.menu a span {
+    margin-left: 10px; /* أو أي قيمة تريدها */
+}
+
+}
+/* الحاوية الأساسية للفلاتر */
+#filterDropdown {
+  position: absolute;  /* تجعلها عائمة فوق المحتوى */
+  top: 60px;           /* تحكم ارتفاعها من الأعلى (تحت زر الفلتر) */
+  right: 20px;         /* تجعلها على يمين الشاشة */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  padding: 15px;
+  border-radius: 8px;
+  display: none;       /* مخفية بشكل افتراضي */
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 350px;        /* عرض مناسب */
+  z-index: 9999;       /* تظهر فوق كل شيء */
+}
+
+/* جعل الحقول تأخذ عرض متساوي داخل القائمة */
+#filterDropdown input,
+#filterDropdown select {
+  flex: 1 1 140px; /* حجم مرن لكن على الأقل 140px */
+  padding: 6px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #fff;
 }
 
-/* Accessibility focus */
-button:focus,
-input:focus,
-select:focus {
-  outline: 2px dashed #007bff;
-  outline-offset: 2px;
+/* أزرار الفلترة */
+#filterDropdown button {
+  padding: 8px 14px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
 }
-@media (max-width: 600px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
 
-  thead {
-    display: none;
-  }
+#filterDropdown button#clearFiltersBtn {
+  background-color: #6c757d; /* لون مختلف للزر مسح الفلاتر */
+}
 
-  td {
-    position: relative;
-    padding-left: 50%;
-    text-align: left;
-    border: none;
-    border-bottom: 1px solid #ddd;
-  }
+#filterDropdown button:hover {
+  background-color: #0056b3;
+}
 
-  td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    font-weight: bold;
-    color: #666;
-  }
+/* زر الفلتر الأساسي */
+#filterToggleBtn {
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#filterToggleBtn:hover {
+  background-color: #0056b3;
 }
 

@@ -3,76 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Employee Manager - Modal</title>
- <link rel="stylesheet" href="style.css">
+  <title>Employee Dashboard</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Employee Dashboard</h1>
 
-    <button class="btn" onclick="openModal()">➕ Add Employee</button>
-   
-
-    <table id="employee-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-      <!-- Trash Bin Button -->
-<button class="btn btn-danger mt-2" onclick="toggleTrash()">🗑 View Trash</button>
-
-<!-- Trash Bin Table -->
-<table id="trash-table" style="display: none; margin-top: 20px;">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Role</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <div class="logo"></div>
+    <ul class="menu">
+      <li><a href="index.html" class="active"><i class="fa fa-home"></i><span>Home</span></a></li>
+      <li><a href="employee.html" class="active"><i class="fa fa-user"></i><span>Employee</span></a></li>
+      <li><a href="department.html" class="active"><i class="fa fa-building"></i><span>Department</span></a></li>
+      <li><a href="attendance.html" class="active"><i class="fa fa-calendar"></i><span>Attendance</span></a></li>
+      <li class="logout"><a href="logout.html" class="active"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+    </ul>
   </div>
 
+  <div class="toggle-btn" style="background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height:50px;">
+    <button onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
 
+  <div class="main--content">
 
-  <!-- Modal Form -->
-  <div id="employeeModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <form id="employee-form">
-        <div class="form-group">
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" required />
-        </div>
-        <div class="form-group">
-          <label for="role">Job Role:</label>
-          <input type="text" id="role" required />
-        </div>
-        <div class="form-group">
-          <label for="status">Status:</label>
-          <select id="status" required>
-            <option value="">-- Select --</option>
-            <option value="Active">Active</option>
-            <option value="On Leave">On Leave</option>
-            <option value="Terminated">Terminated</option>
-          </select>
-        </div>
-        <input type="hidden" id="editIndex" value="-1" />
-        <button type="submit" class="btn" id="saveBtn">Save</button>
-      </form>
+    <div class="header--wrapper">
+      <div class="header--title">
+        <h2>Employee Dashboard</h2>
+        <span>Welcome back</span>
+      </div>
+      <div class="user--info">
+        <i class="fas fa-user-circle fa-2x"></i>
+      </div>
     </div>
+
+    <div class="button-row" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+      <button onclick="openModal()" class="open-modal-btn">
+        <i class="fas fa-plus"></i> Add
+      </button>
+      <button class="filter-btn" id="filterToggleBtn">
+        <i class="fas fa-filter"></i> Filter
+      </button>
+
+      <div class="filter-container" id="filterDropdown" style="margin: 15px 0; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <input type="text" id="searchName" placeholder="Search by name" style="padding: 5px; flex:1; min-width: 150px;" />
+        <input type="text" id="filterRole" placeholder="Filter by job title" style="padding: 5px; flex:1; min-width: 150px;" />
+        <input type="number" id="minSalary" placeholder="Min Salary" style="padding: 5px; width: 120px;" />
+        <input type="number" id="maxSalary" placeholder="Max Salary" style="padding: 5px; width: 120px;" />
+        <input type="number" id="minBonus" placeholder="Min Bonus %" style="padding: 5px; width: 120px;" />
+        <input type="number" id="maxBonus" placeholder="Max Bonus %" style="padding: 5px; width: 120px;" />
+        <select id="filterStatus" style="padding: 5px; width: 150px;">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="On Leave">On Leave</option>
+          <option value="Terminated">Terminated</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+        <button id="applyFiltersBtn" style="padding: 6px 12px;">Apply Filters</button>
+        <button id="clearFiltersBtn" style="padding: 6px 12px;">Clear Filters</button>
+      </div>
+    </div>
+
+    <div class="tabular--wrapper">
+      <h3 class="main--title">Employee Data</h3>
+      <div class="table--container">
+        <table id="employeeTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>Department</th>
+              <th>Salary</th>
+              <th>Status</th>
+              <th>Bonus %</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Employee rows dynamically -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align: right; font-weight: bold;">Total Payroll:</td>
+              <td id="totalPayrollCell" style="font-weight: bold;">0 R</td>
+              <td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <button class="trash-btn" title="Delete" id="toggleDeletedBtn">
+      <i class="fas fa-trash-alt"></i>
+    </button>
+
+    <div class="tabular--wrapper" id="deletedEmployeesSection" style="display: none; margin-top: 10px;">
+      <h3 class="main--title">Delete Data</h3>
+      <div class="table--container">
+        <table id="deletedEmployeeTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>Department</th>
+              <th>Salary</th>
+              <th>Status</th>
+              <th>Bonus %</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Deleted employees here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Employee Modal -->
+    <div id="employeeModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <form class="employee-form">
+          <div class="form-group">
+            <label for="employeeName">Name</label>
+            <input type="text" id="employeeName" required />
+          </div>
+          <div class="form-group">
+            <label for="employeeJob">Job Title</label>
+            <input type="text" id="employeeJob" required />
+          </div>
+          <div class="form-group">
+            <label for="employeeDept">Department</label>
+            <input type="text" id="employeeDept" required />
+          </div>
+          <div class="form-group">
+            <label for="employeeSalary">Salary</label>
+            <input type="number" id="employeeSalary" required min="0" />
+          </div>
+          <div class="form-group">
+            <label for="employeeStatus">Status</label>
+            <select id="employeeStatus" required>
+              <option value="">Select status</option>
+              <option>Active</option>
+              <option>Inactive</option>
+              <option>On Leave</option>
+              <option>Terminated</option>
+            </select>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bonus Modal -->
+    <div id="bonusModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeBonusModal()">&times;</span>
+        <h3>Enter Bonus</h3>
+        <input type="number" id="bonusInput" placeholder="Bonus %" min="0" max="100" />
+        <button onclick="saveBonus()">Save</button>
+      </div>
+    </div>
+
   </div>
 
-  <script src="script.js">
-    
-  </script>
+  <script src="script.js"></script>
+
 </body>
 </html>
